@@ -33,8 +33,7 @@ numChar[4] = (char)(buff / 1000 % 10 + 48);
 numChar[3] = (char)(buff / 10000 % 10 + 48);
 numChar[2] = (char)(buff / 100000 % 10 + 48);
 numChar[1] = (char)(buff / 1000000 % 10 + 48);
-showStr(z,x,y,numChar);
-
+showStr(z,x,y,numChar);  
 }
 
 void showStr(int z,int x,int y,char *str){
@@ -49,14 +48,14 @@ Wire.endTransmission(); //结束通讯
   if(strlen(str) < 32){
     Wire.beginTransmission(lcdAddress);//对lcdAddress设备进行控制
     for(sci = 0;sci < strlen(str);sci ++){     
-      Wire.write(str[sci]);    //发出学习指令 
+      Wire.write(str[sci]);    //发出学习指令       
     }
      Wire.endTransmission(); //结束通讯
   }
    else if(strlen(str) < 64){
       Wire.beginTransmission(lcdAddress);//对lcdAddress设备进行控制
       for(sci = 0;sci < 32;sci ++){
-       Wire.write(str[sci]);    //发出学习指令 
+       Wire.write(str[sci]);    //发出学习指令      
       }
        Wire.endTransmission(); //结束通讯
      Wire.beginTransmission(lcdAddress);//对lcdAddress设备进行控制
@@ -65,6 +64,7 @@ Wire.endTransmission(); //结束通讯
       }
        Wire.endTransmission(); //结束通讯
     }
+
 }
 
 void end(){
