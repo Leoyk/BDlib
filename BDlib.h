@@ -27,5 +27,6 @@ void initAll();
 
 #include"BDZT.h"
 
+#include"BDIR.h"
 
 #endif
