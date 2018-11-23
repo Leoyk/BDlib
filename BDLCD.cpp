@@ -12,6 +12,8 @@ void goToPage(int a){
  sendEnd();
  }
  
+ 
+ 
  void drawLine(char a1,unsigned int data){
 sendStart();
 
