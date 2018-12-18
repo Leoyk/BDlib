@@ -23,5 +23,15 @@
  int gateY();
  int gateZ();
  
- 
+double lonVal();
+double latVal();
+double HdpVal();
+double SeaVal();
+double GspVal();
+double UttVal();
+
+long SatVal();
+long BdcVal();
+long UtdVal();
+
 #endif

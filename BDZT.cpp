@@ -6,8 +6,10 @@
 #define ZTAddress 0X10  
 
 
-long _AX,_AY,_AZ,_GX,_GY,_GZ,_MX,_MY,_MZ,_PRE,_LAT,_LON,_SEAH,_BDC,_SAT,_HDOP,_GSPD;
+long _AX,_AY,_AZ,_GX,_GY,_GZ,_MX,_MY,_MZ,_PRE;
 
+double _LAT,_LON,_HDP,_SEA,_GSP,_UTT;
+long _SAT,_BDC,_UTD;
 
 
 
@@ -29,14 +31,34 @@ long dirAcc(long a){
 
  void getIMUData(){
   int i = 0;//用于计数的变量
-  unsigned int data[34];//用于缓存数据数据
+  unsigned int data[46];//用于缓存数据数据
  
 	 
 	 
-  Wire.requestFrom(0X10, 34);   
+  Wire.requestFrom(0X10, 46);   
   while (Wire.available()) { 
     data[i ++] = Wire.read(); // 缓存
   }
+  
+
+    switch(data[21])
+    {
+        case 0:      
+                  _LAT  = data[22] * 100 + data[23] + (double)data[24] / 100 + (double)data[25] / 10000;
+                  _LON  = (double)data[26] * 1000 + data[27] * 10 + (double)data[28] / 10 + (double)data[29] / 1000;
+                  _SAT  = data[30];
+                  break;
+        case 1:   
+                  _HDP  = data[22] * 10 + (double)data[23] / 10;
+                  _BDC  = data[24];
+                  _SEA  = (double)data[25] * 1000 + data[26] * 10 + (double)data[27] / 10;
+                  _GSP  = data[28] * 10 + (double)data[29] / 10;
+                  break;
+        case 2:      
+                  _UTT  =  (double)data[22] * 10000 + data[23] * 100 + data[24] + (double)data[25] / 100;
+                  _UTD  =  (double)data[26] * 10000 + data[27] * 100 + data[28]; 
+                  break;  
+    }
 
 //将得到的数据进行运算
 _AX = ((data[0] << 8)| data[1]);
@@ -62,13 +84,7 @@ _MZ = ((data[16] << 8)| data[17]);
 _PRE = ((data[18] << 8)| data[19]);
 _PRE += (65536 - 16384 - 4096);
 
-_LAT = ((data[20] << 8)| data[21]);
-_LON = ((data[22] << 8)| data[23]);
-_SEAH = ((data[24] << 8)| data[25]);
-_BDC =  ((data[26] << 8)| data[27]);
-_SAT =  ((data[28] << 8)| data[29]);
-_HDOP =  ((data[30] << 8)| data[31]);
-_GSPD =  ((data[32] << 8)| data[33]);
+
 }
 
 
@@ -163,10 +179,42 @@ long MZV(){
 long PREV(){
 	return _PRE;	
 }
+/*****************     GPS数据    ****************************/
+double lonVal()
+{
+	return _LON;
+}
+double latVal()
+{
+	return _LAT;
+}
+double HdpVal()
+{
+	return _HDP;
+}	
+double SeaVal()
+{
+	return _SEA;
+}
+double GspVal()
+{
+	return _GSP;
+}
+double UttVal()
+{
+	return _UTT;
+}
 
 
-
-
+long SatVal(){
+	return _SAT;	
+}
+long BdcVal(){
+	return _BDC;	
+}
+long UtdVal(){
+	return _UTD;	
+}
 
 
 
