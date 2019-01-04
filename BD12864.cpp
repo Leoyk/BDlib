@@ -24,12 +24,21 @@ String buff = "";//位数变少时清除最后一位残影
 
 buff = (String) kkk + " ";
 
-for(int i = 0;i < 10;i ++)
+for(int i = 0;i < 10;i ++){
+	if(buff[i] == '.'){
+		if((buff[i + 1] == '0') && (buff[i + 2] == '0')){
+			buff[i] = ' ';
+			buff[i+1] = ' ';
+			buff[i+2] = ' ';
+		}
+	}
     s[i] = buff[i];
+}
+
+
     
 //显示在液晶上
   showStr(z,x,y,s);  
-  end();
 }
 
 void showStr(int z,int x,int y,char *str){
