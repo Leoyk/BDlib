@@ -11,7 +11,6 @@
   
   
 void getEnvData(){
-	//test
   
 	//设置局部变量
 	  int i = 0;//用于计数的变量
