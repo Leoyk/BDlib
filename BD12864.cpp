@@ -41,6 +41,13 @@ for(int i = 0;i < 10;i ++){
   showStr(z,x,y,s);  
 }
 
+
+void commDis(int y,char *str,double num){
+	showStr(1,1,y,str);
+	showNum(1,1,y,num);
+}
+
+
 void showStr(int z,int x,int y,char *str){
    int sci = 0;
 

@@ -7,6 +7,7 @@ void showNum(int z,int x,int y,double kkk);
 void showStr(int z,int x,int y,char *str);
 void end();
 
+void commDis(int y,char *str,double num);
 
 
 
