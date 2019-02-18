@@ -6,7 +6,7 @@
   float _temp;//温度 ℃
   float _humi;//湿度 %
   float _CH2O;//甲醛 mg/m3
-  long _PM25; //PM2.5 mg/m3
+  long _PM25; //PM2.5 ug/m3
   
   
   
@@ -27,7 +27,7 @@ void getEnvData(){
 	_temp = ((data[0] << 8)| data[1])*0.1;
 	_humi = ((data[2] << 8)| data[3])*0.1;
 	_PM25 = ((data[4] << 8)| data[5]);
-	_CH2O = ((data[6] << 8)| data[7])*0.001;
+	_CH2O = ((data[6] << 8)| data[7]);
 }
 
 float tempData(){
