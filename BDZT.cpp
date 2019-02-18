@@ -2,16 +2,212 @@
 #include <Wire.h>
 #include <Arduino.h>
 
+#include"BD12864.h"
 
 #define ZTAddress 0X10  
 
 
 long _AX,_AY,_AZ,_GX,_GY,_GZ,_MX,_MY,_MZ,_PRE;
 
-double _LAT,_LON,_HDP,_SEA,_GSP,_UTT;
-long _SAT,_BDC,_UTD;
+double _LAT,_LON,_HDP,_SEA,_GSP;
+long _SAT,_BDC,_UTYY,_UTMM,_UTDD,_UTHH,_UTMI,_UTSS,_UTMC;
 
 
+#define fliterNumber 20
+
+
+double smoothFliterAX(double newRcVal){//参数为元素个数
+//创建滑动窗口数组并启用更新
+
+  static double arr[fliterNumber];//窗口数组
+  static double sum;//N个数值的总和
+  double outVal;//滤波后的输出值
+ 
+  sum = sum - arr[fliterNumber - 1];//去除最后一位的总和
+  
+  for(int i = fliterNumber - 1;i > 0;i --){
+        arr[i]=arr[i - 1];//从最后一位开始向右滑动一次，最后一位被丢弃；
+  }
+  
+  arr[0] = newRcVal;//首位存入新的数据
+  
+  sum = sum + arr[0];//新的总和
+  
+  outVal = sum / fliterNumber;//求算数平均值
+
+ return outVal;
+    }
+	
+	double smoothFliterAY(double newRcVal){//参数为元素个数
+//创建滑动窗口数组并启用更新
+
+  static double arr[fliterNumber];//窗口数组
+  static double sum;//N个数值的总和
+  double outVal;//滤波后的输出值
+ 
+  sum = sum - arr[fliterNumber - 1];//去除最后一位的总和
+  
+  for(int i = fliterNumber - 1;i > 0;i --){
+        arr[i]=arr[i - 1];//从最后一位开始向右滑动一次，最后一位被丢弃；
+  }
+  
+  arr[0] = newRcVal;//首位存入新的数据
+  
+  sum = sum + arr[0];//新的总和
+  
+  outVal = sum / fliterNumber;//求算数平均值
+
+ return outVal;
+    }
+	
+	double smoothFliterAZ(double newRcVal){//参数为元素个数
+//创建滑动窗口数组并启用更新
+
+  static double arr[fliterNumber];//窗口数组
+  static double sum;//N个数值的总和
+  double outVal;//滤波后的输出值
+ 
+  sum = sum - arr[fliterNumber - 1];//去除最后一位的总和
+  
+  for(int i = fliterNumber - 1;i > 0;i --){
+        arr[i]=arr[i - 1];//从最后一位开始向右滑动一次，最后一位被丢弃；
+  }
+  
+  arr[0] = newRcVal;//首位存入新的数据
+  
+  sum = sum + arr[0];//新的总和
+  
+  outVal = sum / fliterNumber;//求算数平均值
+
+ return outVal;
+    }
+	double smoothFliterGX(double newRcVal){//参数为元素个数
+//创建滑动窗口数组并启用更新
+
+  static double arr[fliterNumber];//窗口数组
+  static double sum;//N个数值的总和
+  double outVal;//滤波后的输出值
+ 
+  sum = sum - arr[fliterNumber - 1];//去除最后一位的总和
+  
+  for(int i = fliterNumber - 1;i > 0;i --){
+        arr[i]=arr[i - 1];//从最后一位开始向右滑动一次，最后一位被丢弃；
+  }
+  
+  arr[0] = newRcVal;//首位存入新的数据
+  
+  sum = sum + arr[0];//新的总和
+  
+  outVal = sum / fliterNumber;//求算数平均值
+
+ return outVal;
+    }
+	
+	double smoothFliterGY(double newRcVal){//参数为元素个数
+//创建滑动窗口数组并启用更新
+
+  static double arr[fliterNumber];//窗口数组
+  static double sum;//N个数值的总和
+  double outVal;//滤波后的输出值
+ 
+  sum = sum - arr[fliterNumber - 1];//去除最后一位的总和
+  
+  for(int i = fliterNumber - 1;i > 0;i --){
+        arr[i]=arr[i - 1];//从最后一位开始向右滑动一次，最后一位被丢弃；
+  }
+  
+  arr[0] = newRcVal;//首位存入新的数据
+  
+  sum = sum + arr[0];//新的总和
+  
+  outVal = sum / fliterNumber;//求算数平均值
+
+ return outVal;
+    }
+	double smoothFliterGZ(double newRcVal){//参数为元素个数
+//创建滑动窗口数组并启用更新
+
+  static double arr[fliterNumber];//窗口数组
+  static double sum;//N个数值的总和
+  double outVal;//滤波后的输出值
+ 
+  sum = sum - arr[fliterNumber - 1];//去除最后一位的总和
+  
+  for(int i = fliterNumber - 1;i > 0;i --){
+        arr[i]=arr[i - 1];//从最后一位开始向右滑动一次，最后一位被丢弃；
+  }
+  
+  arr[0] = newRcVal;//首位存入新的数据
+  
+  sum = sum + arr[0];//新的总和
+  
+  outVal = sum / fliterNumber;//求算数平均值
+
+ return outVal;
+    }
+	double smoothFliterMX(double newRcVal){//参数为元素个数
+//创建滑动窗口数组并启用更新
+
+  static double arr[fliterNumber];//窗口数组
+  static double sum;//N个数值的总和
+  double outVal;//滤波后的输出值
+ 
+  sum = sum - arr[fliterNumber - 1];//去除最后一位的总和
+  
+  for(int i = fliterNumber - 1;i > 0;i --){
+        arr[i]=arr[i - 1];//从最后一位开始向右滑动一次，最后一位被丢弃；
+  }
+  
+  arr[0] = newRcVal;//首位存入新的数据
+  
+  sum = sum + arr[0];//新的总和
+  
+  outVal = sum / fliterNumber;//求算数平均值
+
+ return outVal;
+    }
+	double smoothFliterMY(double newRcVal){//参数为元素个数
+//创建滑动窗口数组并启用更新
+
+  static double arr[fliterNumber];//窗口数组
+  static double sum;//N个数值的总和
+  double outVal;//滤波后的输出值
+ 
+  sum = sum - arr[fliterNumber - 1];//去除最后一位的总和
+  
+  for(int i = fliterNumber - 1;i > 0;i --){
+        arr[i]=arr[i - 1];//从最后一位开始向右滑动一次，最后一位被丢弃；
+  }
+  
+  arr[0] = newRcVal;//首位存入新的数据
+  
+  sum = sum + arr[0];//新的总和
+  
+  outVal = sum / fliterNumber;//求算数平均值
+
+ return outVal;
+    }
+	double smoothFliterMZ(double newRcVal){//参数为元素个数
+//创建滑动窗口数组并启用更新
+
+  static double arr[fliterNumber];//窗口数组
+  static double sum;//N个数值的总和
+  double outVal;//滤波后的输出值
+ 
+  sum = sum - arr[fliterNumber - 1];//去除最后一位的总和
+  
+  for(int i = fliterNumber - 1;i > 0;i --){
+        arr[i]=arr[i - 1];//从最后一位开始向右滑动一次，最后一位被丢弃；
+  }
+  
+  arr[0] = newRcVal;//首位存入新的数据
+  
+  sum = sum + arr[0];//新的总和
+  
+  outVal = sum / fliterNumber;//求算数平均值
+
+ return outVal;
+    }
 
 
 
@@ -38,16 +234,14 @@ long dirGro(long a){
   }
   
 long dirMag(long a){
-  if(a > 16384)//14bit
-  a =  -(32763 - a);
+  if(a > 5000)//250
+  a =  -(65535 - a);
 
-  
-  if(a < -16384)
-   a = (32763 + a) ;
+;
 
   return a;
   }
-
+  
 
 
 
@@ -77,8 +271,13 @@ long dirMag(long a){
                   _GSP  = data[28] * 10 + (double)data[29] / 10;
                   break;
         case 2:      
-                  _UTT  =  (double)data[22] * 10000 + data[23] * 100 + data[24] + (double)data[25] / 100;
-                  _UTD  =  (double)data[26] * 10000 + data[27] * 100 + data[28]; 
+				_UTYY = data[28];
+				_UTMM = data[27];
+				_UTDD = data[26];
+				_UTHH = data[22];
+				_UTMI = data[23];
+				_UTSS = data[24];
+				_UTMC = data[25];
                   break;  
     }
 
@@ -91,6 +290,9 @@ _AX = dirAcc(_AX);
 _AY = dirAcc(_AY);
 _AZ = dirAcc(_AZ); 
 
+// _AX = smoothFliterAX(_AX);
+// _AY = smoothFliterAY(_AY);
+// _AZ = smoothFliterAZ(_AZ);
 
 _GX = ((data[6] << 8)| data[7]);
 _GY = ((data[8] << 8)| data[9]);
@@ -100,23 +302,59 @@ _GX = dirGro(_GX);
 _GY = dirGro(_GY);
 _GZ = dirGro(_GZ); 
 
+// _GX = smoothFliterGX(_GX);
+// _GY = smoothFliterGY(_GY);
+// _GZ = smoothFliterGZ(_GZ);
 
-_MX = ((data[12] << 8)| data[13]);
-_MY = ((data[14] << 8)| data[15]);
-_MZ = ((data[16] << 8)| data[17]);
+
+_MX = ((data[13] << 8)| data[12]);
+_MY = ((data[15] << 8)| data[14]);
+_MZ = ((data[17] << 8)| data[16]);
+
+// _MX = smoothFliterMX(_MX);
+// _MY = smoothFliterMY(_MY);
+// _MZ = smoothFliterMZ(_MZ);
 
 _MX = dirMag(_MX);
 _MY = dirMag(_MY);
-_MZ = dirMag(_MZ); 
+_MZ = dirMag(_MZ);  
 
 _PRE = ((data[18] << 8)| data[19]);
-//_PRE += (65536 - 16384 - 4096);
 
-
+_PRE =  65536 + _PRE;
 }
 
+// Altitude =(44330.0 * (1.0-pow((float)(pressure) / 101325, 1.0/5.255)) ); 
+double PVH(double baseline){
+  
+  double pre2;
+  pre2 = (double)_PRE/baseline;
+  pre2 = pow(pre2,0.19029496);
+  
+  return 44330*(1-pre2); 
+}
 
-
+int sYY(){
+	return _UTYY;	
+}
+int sMM(){
+	return _UTMM;	
+}
+int sDD(){
+	return _UTDD;	
+}
+int sHH(){
+	return _UTHH;	
+}
+int sMI(){
+	return _UTMI;	
+}
+int sSS(){
+	return _UTSS;	
+}
+int sMC(){
+	return _UTMC;	
+}
 
 int gateZ(){
 	int a = 0;
@@ -228,10 +466,6 @@ double GspVal()
 {
 	return _GSP;
 }
-double UttVal()
-{
-	return _UTT;
-}
 
 
 long SatVal(){
@@ -240,14 +474,105 @@ long SatVal(){
 long BdcVal(){
 	return _BDC;	
 }
-long UtdVal(){
-	return _UTD;	
-}
 
 
 
 
 
+
+double rad(double d) {
+    return d * PI / 180.0;
+ }
+ 
+double CalGPSDistance(double lat1, double lng1, double lat2, double lng2) {
+    double radLat1 = rad(lat1);
+    double radLat2 = rad(lat2);
+    double a = radLat1 - radLat2;
+    double b = rad(lng1) - rad(lng2);
+    double s = 2 * asin(sqrt(pow(sin(a/2),2) +
+     cos(radLat1)*cos(radLat2)*pow(sin(b/2),2)));
+    s = s * 6371393;
+    return s;
+ } 
+
+
+
+
+double DM2DD(double a){
+  return (int)a/100 + fmod(a,100)/60;
+  }
+double DD2DM(double a){
+  return (int)a*100 + (a -(int)a)*60;
+  }
+
+void showLAT(int z,int x,int y,double lat){
+
+int lat_whole = lat/100;
+double lat_decimal  =  (fmod(lat,100))/0.00006;
+char L_H[3] = {'0','0'};
+char L_D[8] = {'0','0','0','0','0','0'};
+String buff = "";
+
+
+
+  buff = (String)lat_decimal;
+  for(int i = 0;i < 6;i ++){
+    if(buff[i] == '.');
+    else
+      L_D[i] = buff[i];
+    } 
+    
+  buff = (String)lat_whole;
+  for(int i = 0;i < 4;i ++){
+      L_H[i] = buff[i];
+    } 
+
+  
+//显示在液晶上
+  showStr(z,x,y,L_H); 
+  showStr(z,x,y,".");  
+  showStr(z,x,y,L_D);  
+ }
+
+
+ 
+void showLON(int z,int x,int y,double lon){
+
+int lon_whole = (int)(lon)/100;
+double lon_decimal  =  (fmod(lon,100))/0.00006;
+
+//Serial1.println("*");
+//Serial1.println(lon);
+//Serial1.print(lon_whole);
+//Serial1.print(".");
+//Serial1.print(lon_decimal);
+//Serial1.println("*");
+
+
+char L_H[3] = {'0','0'};
+char L_D[8] = {'0','0','0','0','0','0'};
+String buff = "";
+
+
+
+  buff = (String)lon_decimal;
+  for(int i = 0;i < 6;i ++){
+    if(buff[i] == '.');
+    else
+      L_D[i] = buff[i];
+    } 
+    
+  buff = (String)lon_whole;
+  for(int i = 0;i < 4;i ++){
+      L_H[i] = buff[i];
+    } 
+
+  
+//显示在液晶上
+  showStr(z,x,y,L_H); 
+  showStr(z,x,y,".");  
+  showStr(z,x,y,L_D);  
+ }
 
 
 
