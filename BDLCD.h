@@ -9,6 +9,7 @@ void sendStart();
 void send2YJ(String str);
 
 void changeTxt(int id,String txt);//修订ID 字符串
+void changeTxtColor(int id,long color);//修订字符串颜色
 
 void showTxt(int id,char* txt);//在ID出显示“字符串 ”
 void showTxtNum(int id,char* txt,double num);//在ID处显示“字符串”+数据

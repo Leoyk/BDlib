@@ -16,7 +16,7 @@ void SendMsgChar(char *CentreNum,char * PhoneNum,char *str)
   Serial.print((char)GSMs.read());
   
   GSMs.print("at+csca=\"");
-  GSMs.print(CentreNum);//+8613800535500
+  GSMs.print(CentreNum);
   GSMs.println("\"");
   delay(500);
   while(GSMs.available())
@@ -60,7 +60,7 @@ void SendMsgNum(char *CentreNum,char * PhoneNum,int str)
   Serial.print((char)GSMs.read());
   
   GSMs.print("at+csca=\"");
-  GSMs.print(CentreNum);//+8613800535500
+  GSMs.print(CentreNum);
   GSMs.println("\"");
   delay(500);
   while(GSMs.available())

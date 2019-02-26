@@ -78,13 +78,28 @@ void send2YJ(String str){
 }
 
 
-char cbuf[32];
+
 void changeTxt(int id,String txt){
 	
 String sBuf = "";
 
 
 sBuf = "t" + (String)id + ".txt=\"" + txt + "\"";
+
+
+
+ sendStart();
+ send2YJ(sBuf);
+ sendEnd();
+}
+
+
+void changeTxtColor(int id,long color){
+	
+String sBuf = "";
+
+
+sBuf = "t" + (String)id + ".pco=" + (String)color;
 
 
 
