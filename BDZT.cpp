@@ -479,7 +479,7 @@ long BdcVal(){
 
 
 
-
+/* 
 double rad(double d) {
     return d * PI / 180.0;
  }
@@ -574,7 +574,7 @@ String buff = "";
   showStr(z,x,y,L_D);  
  }
 
-
+ */
 
 
 
