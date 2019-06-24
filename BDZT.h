@@ -52,7 +52,7 @@ int sMI();
 int sSS();
 int sMC();
 
-/* //转为弧度
+ //转为弧度
 double rad(double d);
 
 //计算坐标间距
@@ -68,5 +68,5 @@ double DD2DM(double a);
 void showLAT(int z,int x,int y,double lat);
 
 //显示经度
-void showLON(int z,int x,int y,double lon); */
+void showLON(int z,int x,int y,double lon); 
 #endif
